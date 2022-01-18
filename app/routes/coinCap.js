@@ -1,8 +1,6 @@
 require('dotenv').config()
 const express = require('express')
 // jsonwebtoken docs: https://github.com/auth0/node-jsonwebtoken
-
-// import axios
 const axios = require('axios')
 
 const passport = require('passport')
@@ -37,7 +35,6 @@ router.get('/', (req, res, next) => {
 
 // Historical Data Route
 router.get('/dashboard/:id', (req, res, next) => {
-    
     const getHist = {
         method: 'GET',
         // endpoing for historical data: api.coincap.io/v2/assets/bitcoin/history?interval=d1

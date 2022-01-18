@@ -6,8 +6,6 @@ const crypto = require('crypto')
 const passport = require('passport')
 // bcrypt docs: https://github.com/kelektiv/node.bcrypt.js
 const bcrypt = require('bcrypt')
-
-// see above for explanation of "salting", 10 rounds is recommended
 const bcryptSaltRounds = 10
 
 // pull in error types and the logic to handle them and set status codes
@@ -33,13 +31,7 @@ const router = express.Router()
 
 // POST (create) route to add a comment to a followed coin
 router.post('/dashboard/comment/:coinName', requireToken, (req, res, next) => {
-    // console.log('This is the commentDB Post route req.body object: ', req.body.e)
-    // console.log('This is the savedCoin owner', req.body.user._id)
-    // console.log('This is the matchedCoin we want to add a comment to: ', req.body.matchedCoin[0])
-    // console.log('This is the corresponding coin req object: ', req.body.matchedCoin[0]._id)
     req.body.matchedCoin.owner = req.body.user._id
-    // console.log('THi is EEEE:', typeof req.body.content)
-    // console.log(`These should match: ${typeof req.body.matchedCoin.owner} and ${typeof req.body.user._id}`)
     Saved.findById(req.body.matchedCoin[0]._id)
     .then(coin => {
         coin.comments.push({ content: req.body.content })
@@ -48,7 +40,6 @@ router.post('/dashboard/comment/:coinName', requireToken, (req, res, next) => {
     .then(
         coin => {
             console.log('Second .then: ', coin)
-            // after that we can return the place and send the status with some JSON
             res.status(201).json({ coin: coin.toObject() })
         }
     )
@@ -78,13 +69,8 @@ router.delete('/dashboard/comment/:id', (req, res, next) => {
     })
 })
 
-// EXAMPLE PATCH ROUTE (Look at the route in Example routes for UNEDITED version)
-// UPDATE
-// PATCH /examples/5a7db6c74d55bc51bdf39793
+// UPDATE Route for comments
 router.patch('/dashboard/comment/:id', (req, res, next) => {
-	// if the client attempts to change the `owner` property by including a new
-	// owner, prevent that by deleting that key/value pair
-	// delete req.body.example.owner
     console.log('This is the req.body from the PUT route: ', req)
 	Saved.findOneAndUpdate({ "_id": req.body.matchedCoin[0]._id,
         "comments._id": req.params.id}, {

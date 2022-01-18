@@ -1,15 +1,11 @@
-// require necessary NPM packages
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
-
-// require route files
-const exampleRoutes = require('./app/routes/example_routes')
 const userRoutes = require('./app/routes/user_routes')
 const coindb = require('./app/routes/coindb')
 const commentdb = require('./app/routes/commentdb')
 const coincap = require('./app/routes/coinCap')
-// require middleware
+// Middleware
 const errorHandler = require('./lib/error_handler')
 const replaceToken = require('./lib/replace_token')
 const requestLogger = require('./lib/request_logger')
@@ -73,7 +69,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use(requestLogger)
 
 // register route files
-app.use(exampleRoutes)
 app.use(userRoutes)
 app.use(coindb)
 app.use(commentdb)

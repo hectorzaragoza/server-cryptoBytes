@@ -5,8 +5,6 @@ const crypto = require('crypto')
 const passport = require('passport')
 // bcrypt docs: https://github.com/kelektiv/node.bcrypt.js
 const bcrypt = require('bcrypt')
-
-// see above for explanation of "salting", 10 rounds is recommended
 const bcryptSaltRounds = 10
 
 // pull in error types and the logic to handle them and set status codes
@@ -49,22 +47,14 @@ router.post('/dashboard', requireToken, (req, res, next) => {
         .catch(next)
 })
 
-// INDEX
-// GET /examples
+// INDEX route
 router.get('/dashboard', requireToken, (req, res, next) => {
     Saved.find()
         .then((coins) => {
-            console.log("is this working?", coins)
             const userCoins = coins.filter(coin => coin.owner.toString() === req.user.id)
-            console.log("user coins!", userCoins)
-            // `examples` will be an array of Mongoose documents
-            // we want to convert each one to a POJO, so we use `.map` to
-            // apply `.toObject` to each one
-
-            // map over user coins instead of coins
             return userCoins.map((coin) => coin.toObject())
         })
-        // respond with status 200 and JSON of the examples
+        // respond with status 200 and JSON of the saved coins
         .then((coins) => res.status(200).json({ coins: coins }))
         // if an error occurs, pass it to the handler
         .catch(next)
