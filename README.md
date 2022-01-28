@@ -33,4 +33,4 @@ User can create a profile to visit a page to learn more about what cryptocurrenc
 
 
 ### Link to Other Repo
--https://github.com/harrdev/client-cryptoBytes
+-https://github.com/hectorzaragoza/Cryptocurrency-Tracker-App
